@@ -3,7 +3,7 @@ Introduction
 
 CircuitPython helper library for the LSM6DSV family of motion sensors from ST.
 
-Note that ST Electroncis makes several "LSM6DS" IMUs in their iNEMO line. However, they're not all 100% compatible. If you don't have on the following chips, you may need to use the `Adafruit_CircuitPython_LSM6DS library<https://github.com/adafruit/Adafruit_CircuitPython_LSM6DS>`_ instead. 
+Note that ST Electroncis makes several "LSM6DS" IMUs in their iNEMO line. However, they're not all 100% compatible. If you don't have on the following chips, you may need to use the `Adafruit_CircuitPython_LSM6DS library <https://github.com/adafruit/Adafruit_CircuitPython_LSM6DS>`_ instead. 
 
 * LSM6DSV
 * LSM6DSV16B
