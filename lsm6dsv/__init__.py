@@ -129,8 +129,8 @@ class LSM6DSV_CORE:
         self.accelerometer_data_rate = Rate.RATE_120_HZ  # pylint: disable=no-member
         self.gyro_data_rate = Rate.RATE_120_HZ  # pylint: disable=no-member
 
-        self.accelerometer_range = AccelRange.RANGE_4G  # pylint: disable=no-member
-        self.gyro_range = GyroRange.RANGE_250_DPS  # pylint: disable=no-member
+        self.accelerometer_range = AccelRange.RANGE_2G  # pylint: disable=no-member
+        self.gyro_range = GyroRange.RANGE_125_DPS  # pylint: disable=no-member
 
 
     def reset(self) -> None:
@@ -243,6 +243,9 @@ class LSM6DSV_CORE:
         if not Rate.is_valid(value):
             raise AttributeError("gyro_data_rate must be a `Rate`")
 
+        if value == Rate.RATE_1_875_HZ:
+            raise AttributeError("gyro cannot use the 1.875Hz ODR")
+        
         self._gyro_data_rate = value
 
     @property
