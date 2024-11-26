@@ -20,6 +20,8 @@ While writing this library, I used a `Sparkfun Micro 6DoF IMU Breakout - LSM6DSV
 
 At first, I though this was due to something I'd missed in the driver. But the answer was simpler than that. Sparkfun's qwiic I2C interconnect assumes 3.3v to the port, and they design their breakouts with the assumption in mind. Adafruit's very similar STEMMA/STEMMA QT I2C port, however, is not concsistently 3.3v: it may also use 5v. This isn't normally a problem for STEMMA breakouts designed by Adafruit, since they typically set those boards up to transparently handle either voltage.
 
+Moving to a dev board that supplied 3.3v on the I2C port—such as an Raspberry Pi Pico, an Adafruit QT PY 2040, or a Sparkfun SAMD51 Thing—resolved the issue and got the gyro readouts working.
+
 **So here's the tip: make sure that you're giving your dev module the voltage it expects ;-)**
 
 Dependencies
