@@ -24,7 +24,7 @@ class CV:
 
     @classmethod
     def add_values(cls, value_tuples: Tuple[str, int, float, Optional[float]]) -> None:
-        "creates CV entires"
+        "creates CV entries"
         cls.string = {}
         cls.lsb = {}
 
@@ -43,10 +43,14 @@ class CV:
 class AccelRange(CV):
     """Options for ``accelerometer_range``"""
 
+class AccelOpMode(CV):
+    """Options for ``accelerometer_op_mode``"""
 
 class GyroRange(CV):
     """Options for ``gyro_data_range``"""
 
+class GyroOpMode(CV):
+    """Options for ``gyrp_op_mode``"""
 
 class Rate(CV):
     """Options for ``accelerometer_data_rate`` and ``gyro_data_rate``"""
@@ -99,9 +103,11 @@ class LSM6DSV_CORE:
     #RWBits
     _accel_data_rate = RWBits(4, _LSM6DSV_CTRL1, 0)
     _accel_range = RWBits(2, _LSM6DSV_CTRL8, 0)
+    _accel_op_mode = RWBits(3, _LSM6DSV_CTRL1, 4)
 
     _gyro_data_rate = RWBits(4, _LSM6DSV_CTRL2, 0)
     _gyro_range = RWBits(4, _LSM6DSV_CTRL6, 0)
+    _gyro_op_mode = RWBits(3, _LSM6DSV_CTRL2, 4)
 
     _sw_reset = RWBit(_LSM6DSV_CTRL3, 0)
     _bdu = RWBit(_LSM6DSV_CTRL3, 6)
@@ -123,8 +129,12 @@ class LSM6DSV_CORE:
         self.reset()
 
         self._add_gyro_ranges()
+        self._add_gyro_op_modes()
         self._add_accel_ranges()
-        
+        self._add_accel_op_modes()
+
+        self._bdu = True
+
         # Default data rates for both accel and gyro is 0 (off); enable both at lowest standard rate (non-low-power)
         self.accelerometer_data_rate = Rate.RATE_120_HZ  # pylint: disable=no-member
         self.gyro_data_rate = Rate.RATE_120_HZ  # pylint: disable=no-member
@@ -153,6 +163,18 @@ class LSM6DSV_CORE:
         )
 
     @staticmethod
+    def _add_gyro_op_modes() -> None:
+        GyroOpMode.add_values(
+            (
+                ("HIGH_PERFORMANCE_MODE", 0, None, None),
+                ("HIGH_ACCURACY_ODR_MODE", 1, None, None),
+                ("ODR_TRIGGERED_MODE", 3, None, None),
+                ("SLEEP_MODE", 4, None, None),
+                ("LOW_POWER_MODE", 5, None, None),
+            )
+        )
+
+    @staticmethod
     def _add_accel_ranges() -> None:
         AccelRange.add_values(
             (
@@ -160,6 +182,20 @@ class LSM6DSV_CORE:
                 ("RANGE_4G", 1, 4, 0.122),
                 ("RANGE_8G", 2, 8, 0.244),
                 ("RANGE_16G", 3, 16, 0.488),
+            )
+        )
+
+    @staticmethod
+    def _add_accel_op_modes() -> None:
+        AccelOpMode.add_values(
+            (
+                ("HIGH_PERFORMANCE_MODE", 0, None, None),
+                ("HIGH_ACCURACY_ODR_MODE", 1, None, None),
+                ("ODR_TRIGGERED_MODE", 3, None, None),
+                ("LOW_POWER_MODE_1", 4, None, None),
+                ("LOW_POWER_MODE_2", 5, None, None),
+                ("LOW_POWER_MODE_3", 6, None, None),
+                ("NORMAL_MODE",7, None, None),
             )
         )
 
