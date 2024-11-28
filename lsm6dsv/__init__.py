@@ -3,7 +3,6 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_LSM6DS.git"
 
 import struct
 
-import struct
 from time import sleep
 from math import radians
 from micropython import const
